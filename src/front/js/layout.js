@@ -4,13 +4,13 @@ import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
 import { Home } from "./pages/home";
-import { Demo } from "./pages/demo";
-import { Single } from "./pages/single";
+
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
-
+import SessionForm from "./component/SessionForm.jsx";
+import Private from "./pages/Private.jsx";
 //create your first component
 const Layout = () => {
     //the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -26,8 +26,9 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
-                        <Route element={<Demo />} path="/demo" />
-                        <Route element={<Single />} path="/single/:theid" />
+                        <Route element={<SessionForm />} path="/signup" />
+                        <Route element={<SessionForm register={false}/>} path="/login" />
+                        <Route element={<Private />} path="/private" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
@@ -38,3 +39,24 @@ const Layout = () => {
 };
 
 export default injectContext(Layout);
+
+
+
+
+
+
+
+
+let login = async (email,password) =>{
+    let response = await fetch("XXXXXXX", {
+        body:{
+            "email": email,
+            "password": password
+        }
+    })
+    if(response.ok){
+        let data = await response.json()
+        window.localStorage.setItem("token", data.token)
+    }
+    
+}
